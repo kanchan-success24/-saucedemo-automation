@@ -1,0 +1,19 @@
+{
+ "name": "saucedemo-automation",
+ "version": "1.0.0",
+ "main": "index.js",
+ "scripts": {
+  "test": "playwright test",
+  "test:login": "playwright test login.spec.js",
+  "test:e2e": "playwright test e2e.spec.js"
+ },
+ "keywords": [],
+ "author": "kanchan",
+ "license": "ISC",
+ "description": "saucedemo-automation Framework",
+ "devDependencies": {
+  "@playwright/test": "^1.60.0",
+  "@types/node": "^25.9.3",
+  "allure-playwright": "^3.10.0"
+ }
+}
