@@ -45,10 +45,12 @@ module.exports = defineConfig({
     // false = browser dikhega (sikhne ke liye)
     // true  = browser nahi dikhega (fast hota hai)
     // ========================================
-    headless: false,
-    launchOptions:{
-      slowMo:1000,
-    },
+   use: {
+  headless: process.env.CI ? true : false,  //ci m headless m chlega mere local pr headed m
+  launchOptions: {
+    slowMo: 1000,
+  },
+},
 
     // ========================================
     // SCREENSHOT — kab screenshot le?
