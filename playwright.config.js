@@ -1,103 +1,83 @@
 const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
+// ========================================
+// TESTS FOLDER
+// ========================================
+testDir: './tests',
 
-  // ========================================
-  // TESTS FOLDER — kahan hain test files?
-  // ========================================
-  testDir: './tests',
+// ========================================
+// PARALLEL EXECUTION
+// ========================================
+fullyParallel: false,
 
-  // ========================================
-  // PARALLEL — ek saath kitne tests chalenge?
-  // false = ek ek karke chalenge (beginner ke liye achha)
-  // true  = sab ek saath chalenge (fast hota hai)
-  // ========================================
-  fullyParallel: false,
+// ========================================
+// RETRIES
+// ========================================
+retries: 0,
 
-  // ========================================
-  // RETRIES — fail hone pe kitni baar try kare?
-  // 0 = dobara mat try karo
-  // 2 = 2 baar aur try karo
-  // ========================================
-  retries: 0,
+// ========================================
+// WORKERS
+// ========================================
+workers: 1,
 
-  // ========================================
-  // WORKERS — ek saath kitne browsers chalenge?
-  // 1 = sirf ek browser (clearly dikhega)
-  // 3 = teen browsers ek saath
-  // ========================================
-  workers: 1,
-
-  // ========================================
-  // REPORTER — report kaunsi format mein?
-  // 'html' = browser mein sundar report
-  // 'list' = terminal mein simple list
-  // ========================================
-  
- reporter: [
-  ['html'],
-  ['allure-playwright']
+// ========================================
+// REPORTERS
+// ========================================
+reporter: [
+['html'],
+['allure-playwright'],
 ],
 
-  use: {
-    // ========================================
-    // HEADLESS — browser dikhega ya nahi?
-    // false = browser dikhega (sikhne ke liye)
-    // true  = browser nahi dikhega (fast hota hai)
-    // ========================================
-   use: {
-  headless: process.env.CI ? true : false,  //ci m headless m chlega mere local pr headed m
-  launchOptions: {
-    slowMo: 1000,
-  },
+// ========================================
+// COMMON SETTINGS
+// ========================================
+use: {
+// GitHub Actions (CI) -> Headless
+// Local machine -> Browser visible
+headless: process.env.CI ? true : false,
+
+
+// Slow execution only on local
+launchOptions: {
+  slowMo: process.env.CI ? 0 : 1000,
 },
 
-    // ========================================
-    // SCREENSHOT — kab screenshot le?
-    // 'only-on-failure' = sirf fail hone pe
-    // 'on'              = har baar
-    // 'off'             = kabhi nahi
-    // ========================================
-    screenshot: 'only-on-failure',
+// Screenshot on failure
+screenshot: 'only-on-failure',
 
-    // ========================================
-    // VIDEO — kab video record kare?
-    // 'retain-on-failure' = sirf fail hone pe save karo
-    // 'on'                = har baar
-    // 'off'               = kabhi nahi
-    // ========================================
-    video: 'retain-on-failure',
+// Video on failure
+video: 'retain-on-failure',
 
-    // ========================================
-    // TRACE — debugging ke liye
-    // 'on-first-retry' = retry pe trace karo
-    // 'on'             = har baar
-    // 'off'            = kabhi nahi
-    // ========================================
-    trace: 'on-first-retry',
-  },
+// Trace on first retry
+trace: 'on-first-retry',
 
-  // ========================================
-  // PROJECTS — kaunse browsers mein test karna hai?
-  // Abhi sirf Chrome — baad mein aur add kar sakte ho
-  // ========================================
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-      // Chrome mein test karo
-    },
 
-    // Firefox add karna ho toh uncomment karo:
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
+},
 
-    // Safari add karna ho toh uncomment karo:
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-  ],
+// ========================================
+// BROWSERS
+// ========================================
+projects: [
+{
+name: 'chromium',
+use: {
+...devices['Desktop Chrome'],
+},
+},
+
+
+// Uncomment if needed
+// {
+//   name: 'firefox',
+//   use: { ...devices['Desktop Firefox'] },
+// },
+
+// {
+//   name: 'webkit',
+//   use: { ...devices['Desktop Safari'] },
+// },
+
+
+],
 });
