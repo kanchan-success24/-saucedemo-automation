@@ -1,4 +1,5 @@
-//README.md file use for anyone can easily understand the project.
+
+![Tests](https://github.com/kanchan-success24/-saucedemo-automation/actions/workflows/playwright.yml/badge.svg)
 
 # Saucedemo Automation Framework
 
