@@ -1,83 +1,43 @@
 const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
-// ========================================
-// TESTS FOLDER
-// ========================================
-testDir: './tests',
+  testDir: './tests',
+  fullyParallel: false,
+  retries: 0,
+  workers: 1,
 
-// ========================================
-// PARALLEL EXECUTION
-// ========================================
-fullyParallel: false,
+  reporter: [
+    ['html'],
+    ['allure-playwright'],
+  ],
 
-// ========================================
-// RETRIES
-// ========================================
-retries: 0,
+  use: {
+    headless: process.env.CI ? true : false,
+    launchOptions: {
+      slowMo: process.env.CI ? 0 : 1000,
+    },
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    trace: 'on-first-retry',
+  },
 
-// ========================================
-// WORKERS
-// ========================================
-workers: 1,
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
 
-// ========================================
-// REPORTERS
-// ========================================
-reporter: [
-['html'],
-['allure-playwright'],
-],
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
 
-// ========================================
-// COMMON SETTINGS
-// ========================================
-use: {
-// GitHub Actions (CI) -> Headless
-// Local machine -> Browser visible
-headless: process.env.CI ? true : false,
-
-
-// Slow execution only on local
-launchOptions: {
-  slowMo: process.env.CI ? 0 : 1000,
-},
-
-// Screenshot on failure
-screenshot: 'only-on-failure',
-
-// Video on failure
-video: 'retain-on-failure',
-
-// Trace on first retry
-trace: 'on-first-retry',
-
-
-},
-
-// ========================================
-// BROWSERS
-// ========================================
-projects: [
-{
-name: 'chromium',
-use: {
-...devices['Desktop Chrome'],
-},
-},
-
-
-// Uncomment if needed
-// {
-//   name: 'firefox',
-//   use: { ...devices['Desktop Firefox'] },
-// },
-
-// {
-//   name: 'webkit',
-//   use: { ...devices['Desktop Safari'] },
-// },
-
-
-],
+    // Uncomment if needed
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
+  ],
 });
