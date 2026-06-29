@@ -10,3 +10,7 @@ node_modules/
 
 # Environment variables
 .env
+
+# Allure reports (ADD KARO)
+allure-results/
+allure-report/
